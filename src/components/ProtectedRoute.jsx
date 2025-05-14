@@ -3,26 +3,23 @@ import { useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const isAuth = localStorage.getItem("auth");
+  const [isAuth, setIsAuth] = useState(null); 
 
   useEffect(() => {
-    if (!isAuth) {
-      navigate("/signin");
+    const authStatus = localStorage.getItem("auth");
+    if (authStatus) {
+      setIsAuth(true);
     } else {
-      setIsLoading(false);
+      setIsAuth(false);
+      navigate("/signin"); 
     }
-  }, [isAuth, navigate]);
+  }, [navigate]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isAuth === null) {
+    return <div>Loading...</div>; 
   }
 
-  if (!isAuth) {
-    return null; 
-  }
-
-  return children;
+  return isAuth ? children : null;
 };
 
 export default ProtectedRoute;

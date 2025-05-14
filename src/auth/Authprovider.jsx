@@ -5,7 +5,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // localStorage dan autentifikatsiya holatini tekshirib olish
   useEffect(() => {
     const authStatus = localStorage.getItem("auth");
     if (authStatus) {
